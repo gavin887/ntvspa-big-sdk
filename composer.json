@@ -1,0 +1,32 @@
+{
+    "name": "gavin887/ntvspa-big-sdk",
+    "description": "Package generated from official `.wsdl` using wsdltophp/packagegenerator",
+    "type": "library",
+    "keywords" : ["ntvspa","wsdl","php","soap"],
+    "homepage" : "https://github.com/gavin887/ntvspa-big-sdk",
+    "license" : "MIT",
+    "authors" : [
+        {
+            "name": "Zhilong Zhou",
+            "email": "mfkickdx78@gmail.com",
+            "homepage": "https://github.com/gavin887",
+            "role": "Owner"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-dom": "*",
+        "ext-mbstring": "*",
+        "ext-soap": "*",
+        "wsdltophp/packagebase": "~5.0"
+    },
+    "autoload": {
+        "files": [
+            "./src/Constants.php",
+            "./src/ServiceFactory.php"
+        ],
+        "psr-4": {
+            "Ntvspa\\Big\\": "./src/"
+        }
+    }
+}

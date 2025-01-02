@@ -1,0 +1,4463 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://schemas.ntvspa.it/BIG/WebServices" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CustomerManager" targetNamespace="http://schemas.ntvspa.it/BIG/WebServices">
+<wsp:Policy wsu:Id="BasicHttpBinding_ICustomerManager1_policy">
+<wsp:ExactlyOne>
+<wsp:All>
+<sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+<wsp:Policy>
+<sp:TransportToken>
+<wsp:Policy>
+<sp:HttpsToken RequireClientCertificate="false"/>
+</wsp:Policy>
+</sp:TransportToken>
+<sp:AlgorithmSuite>
+<wsp:Policy>
+<sp:Basic256/>
+</wsp:Policy>
+</sp:AlgorithmSuite>
+<sp:Layout>
+<wsp:Policy>
+<sp:Strict/>
+</wsp:Policy>
+</sp:Layout>
+</wsp:Policy>
+</sp:TransportBinding>
+</wsp:All>
+</wsp:ExactlyOne>
+</wsp:Policy>
+<wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/">
+<xs:element name="anyType" nillable="true" type="xs:anyType"/>
+<xs:element name="anyURI" nillable="true" type="xs:anyURI"/>
+<xs:element name="base64Binary" nillable="true" type="xs:base64Binary"/>
+<xs:element name="boolean" nillable="true" type="xs:boolean"/>
+<xs:element name="byte" nillable="true" type="xs:byte"/>
+<xs:element name="dateTime" nillable="true" type="xs:dateTime"/>
+<xs:element name="decimal" nillable="true" type="xs:decimal"/>
+<xs:element name="double" nillable="true" type="xs:double"/>
+<xs:element name="float" nillable="true" type="xs:float"/>
+<xs:element name="int" nillable="true" type="xs:int"/>
+<xs:element name="long" nillable="true" type="xs:long"/>
+<xs:element name="QName" nillable="true" type="xs:QName"/>
+<xs:element name="short" nillable="true" type="xs:short"/>
+<xs:element name="string" nillable="true" type="xs:string"/>
+<xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte"/>
+<xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt"/>
+<xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/>
+<xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort"/>
+<xs:element name="char" nillable="true" type="tns:char"/>
+<xs:simpleType name="char">
+<xs:restriction base="xs:int"/>
+</xs:simpleType>
+<xs:element name="duration" nillable="true" type="tns:duration"/>
+<xs:simpleType name="duration">
+<xs:restriction base="xs:duration">
+<xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/>
+<xs:minInclusive value="-P10675199DT2H48M5.4775808S"/>
+<xs:maxInclusive value="P10675199DT2H48M5.4775807S"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="guid" nillable="true" type="tns:guid"/>
+<xs:simpleType name="guid">
+<xs:restriction base="xs:string">
+<xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:attribute name="FactoryType" type="xs:QName"/>
+<xs:attribute name="Id" type="xs:ID"/>
+<xs:attribute name="Ref" type="xs:IDREF"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints/Response"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="GetLoyaltyPointsRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+<xs:element name="CustomerId" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="ShowTransaction" nillable="true" type="xs:boolean"/>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints/Request" minOccurs="0" name="LoyaltyTransactionFilter" nillable="true" type="q2:LoyaltyTransactionFilter"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="GetLoyaltyPointsRequest" nillable="true" type="tns:GetLoyaltyPointsRequest"/>
+<xs:complexType name="GetLoyaltyPointsResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q3="http://schemas.ntvspa.it/BIG/Messages" base="q3:ResponseBase">
+<xs:sequence>
+<xs:element minOccurs="0" name="LoyaltyLevel" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="AvailableLoyaltyPoints" type="xs:long"/>
+<xs:element minOccurs="0" name="QualifyingPoints" type="xs:long"/>
+<xs:element minOccurs="0" name="NextTierGapPoints" type="xs:long"/>
+<xs:element minOccurs="0" name="ExpirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="AmexCardHolder" type="xs:boolean"/>
+<xs:element minOccurs="0" name="JourneyCompleted" type="xs:int"/>
+<xs:element xmlns:q4="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints/Response" minOccurs="0" name="LoyaltyTransactions" nillable="true" type="q4:ArrayOfLoyaltyTransaction">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="GetLoyaltyPointsResponse" nillable="true" type="tns:GetLoyaltyPointsResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request">
+<xs:simpleType name="SourceSystem">
+<xs:restriction base="xs:string">
+<xs:enumeration value="AGENCY"/>
+<xs:enumeration value="CORPORATE"/>
+<xs:enumeration value="ANDROID"/>
+<xs:enumeration value="iOS"/>
+<xs:enumeration value="FOREIGN_AGENCY"/>
+<xs:enumeration value="ITALO_TICKET"/>
+<xs:enumeration value="IMPRESA_ANDROID"/>
+<xs:enumeration value="IMPRESA_IOS"/>
+<xs:enumeration value="ALEXA"/>
+<xs:enumeration value="ITALOTRENO"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="SourceSystem" nillable="true" type="tns:SourceSystem"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints/Request" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints/Request">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations/Customer"/>
+<xs:complexType name="LoyaltyTransactionFilter">
+<xs:sequence>
+<xs:element minOccurs="0" name="TransactionStartDate" nillable="true" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="TransactionEndDate" nillable="true" type="xs:dateTime"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="TransactionsType" nillable="true" type="q1:TransactionTypeEnum"/>
+<xs:element minOccurs="0" name="TransactionSubtype" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PNR" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="LoyaltyTransactionFilter" nillable="true" type="tns:LoyaltyTransactionFilter"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Enumerations/Customer" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Enumerations/Customer">
+<xs:simpleType name="TransactionTypeEnum">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Debit"/>
+<xs:enumeration value="Credit"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="TransactionTypeEnum" nillable="true" type="tns:TransactionTypeEnum"/>
+<xs:simpleType name="FixedPhone">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Abitazione"/>
+<xs:enumeration value="Ufficio"/>
+<xs:enumeration value="Altro"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="FixedPhone" nillable="true" type="tns:FixedPhone"/>
+<xs:simpleType name="FavoriteContactMethod">
+<xs:restriction base="xs:string">
+<xs:enumeration value="TelefonoFisso"/>
+<xs:enumeration value="TelefonoMobile"/>
+<xs:enumeration value="Sms"/>
+<xs:enumeration value="EMail"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="FavoriteContactMethod" nillable="true" type="tns:FavoriteContactMethod"/>
+<xs:simpleType name="Profession">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Casalinga"/>
+<xs:enumeration value="Dirigente"/>
+<xs:enumeration value="FunzionarioQuadro"/>
+<xs:enumeration value="Impiegato"/>
+<xs:enumeration value="InsegnanteProfessore"/>
+<xs:enumeration value="Imprenditore"/>
+<xs:enumeration value="Lavoratoreautonomo"/>
+<xs:enumeration value="Liberoprofessionista"/>
+<xs:enumeration value="Nonoccupato"/>
+<xs:enumeration value="Operaio"/>
+<xs:enumeration value="Pensionato"/>
+<xs:enumeration value="Studente"/>
+<xs:enumeration value="Altro"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="Profession" nillable="true" type="tns:Profession"/>
+<xs:simpleType name="ProfessionalSector">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Agricoltura"/>
+<xs:enumeration value="AlimentareRistorazione"/>
+<xs:enumeration value="ArchitetturaIngegneria"/>
+<xs:enumeration value="Artigianato"/>
+<xs:enumeration value="BancheAssicFinanz"/>
+<xs:enumeration value="ChimicaBiotecFarmac"/>
+<xs:enumeration value="ComGrandeDistrDettaglio"/>
+<xs:enumeration value="EdiliziaImmobiliare"/>
+<xs:enumeration value="Industria"/>
+<xs:enumeration value="InformaticaIT"/>
+<xs:enumeration value="MarketingVendite"/>
+<xs:enumeration value="MediaEditoriaPubblicità"/>
+<xs:enumeration value="ModaEventiSpettCult"/>
+<xs:enumeration value="Sanità"/>
+<xs:enumeration value="Servizi"/>
+<xs:enumeration value="Telecomunicazioni"/>
+<xs:enumeration value="Turismo"/>
+<xs:enumeration value="TrasportiLogistica"/>
+<xs:enumeration value="Altro"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="ProfessionalSector" nillable="true" type="tns:ProfessionalSector"/>
+<xs:complexType name="ArrayOfInterest">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="Interest" type="tns:Interest"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfInterest" nillable="true" type="tns:ArrayOfInterest"/>
+<xs:simpleType name="Interest">
+<xs:restriction base="xs:string">
+<xs:enumeration value="ArteeCultura"/>
+<xs:enumeration value="AttualitàeSpettacolo"/>
+<xs:enumeration value="Caseearredamento"/>
+<xs:enumeration value="CinemaeTeatro"/>
+<xs:enumeration value="CommunityeBlog"/>
+<xs:enumeration value="EconomiaFinanzaPolitica"/>
+<xs:enumeration value="GastronomiaeCucina"/>
+<xs:enumeration value="Libri"/>
+<xs:enumeration value="Meteo"/>
+<xs:enumeration value="Musica"/>
+<xs:enumeration value="Nuovetecnologie"/>
+<xs:enumeration value="Sport"/>
+<xs:enumeration value="Viaggi"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="Interest" nillable="true" type="tns:Interest"/>
+<xs:simpleType name="TravelReason">
+<xs:restriction base="xs:string">
+<xs:enumeration value="AffariLavoro"/>
+<xs:enumeration value="Studio"/>
+<xs:enumeration value="VacanzaSvago"/>
+<xs:enumeration value="Visitaparentiamici"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="TravelReason" nillable="true" type="tns:TravelReason"/>
+<xs:simpleType name="PreferredSeat">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Finestrino"/>
+<xs:enumeration value="Corridoio"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PreferredSeat" nillable="true" type="tns:PreferredSeat"/>
+<xs:simpleType name="Title">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Sig"/>
+<xs:enumeration value="Sigra"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="Title" nillable="true" type="tns:Title"/>
+<xs:simpleType name="Segment">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Corporate"/>
+<xs:enumeration value="Consumer"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="Segment" nillable="true" type="tns:Segment"/>
+<xs:simpleType name="PaymentMethod">
+<xs:restriction base="xs:string">
+<xs:enumeration value="CartadiCredito"/>
+<xs:enumeration value="BancoPosta"/>
+<xs:enumeration value="Bancomat"/>
+<xs:enumeration value="Voucher"/>
+<xs:enumeration value="CreditShell"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PaymentMethod" nillable="true" type="tns:PaymentMethod"/>
+<xs:simpleType name="FavoriteContactSlot">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Mattina"/>
+<xs:enumeration value="Pomeriggio"/>
+<xs:enumeration value="Sera"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="FavoriteContactSlot" nillable="true" type="tns:FavoriteContactSlot"/>
+<xs:simpleType name="AcquisitionChannel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="CONTACTCENTER"/>
+<xs:enumeration value="PORTALEB2C"/>
+<xs:enumeration value="PORTALEB2CLIGHT"/>
+<xs:enumeration value="PORTALEB2CBASIC"/>
+<xs:enumeration value="PORTALEB2B"/>
+<xs:enumeration value="PORTALEB2BESTERO"/>
+<xs:enumeration value="PORTALEB2CSTANDARD"/>
+<xs:enumeration value="TVM"/>
+<xs:enumeration value="MOBILEWORKFORCE"/>
+<xs:enumeration value="CItaloBologna"/>
+<xs:enumeration value="CItaloFirenzeSMN"/>
+<xs:enumeration value="CItaloMilanoPortaGaribaldi"/>
+<xs:enumeration value="CItaloMilanoRogoredo"/>
+<xs:enumeration value="CItaloNapoliCentrale"/>
+<xs:enumeration value="CItaloPadova"/>
+<xs:enumeration value="CItaloRomaOstiense"/>
+<xs:enumeration value="CItaloRomaTiburtina"/>
+<xs:enumeration value="CItaloSalerno"/>
+<xs:enumeration value="CItaloTorino"/>
+<xs:enumeration value="CItaloVeneziaMestre"/>
+<xs:enumeration value="CItaloVeneziaSantaLucia"/>
+<xs:enumeration value="CItaloAncona"/>
+<xs:enumeration value="CItaloRimini"/>
+<xs:enumeration value="CItaloPesaro"/>
+<xs:enumeration value="CItaloForli"/>
+<xs:enumeration value="CItaloTermini"/>
+<xs:enumeration value="BIGSTANDARD"/>
+<xs:enumeration value="BIG"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="AcquisitionChannel" nillable="true" type="tns:AcquisitionChannel"/>
+<xs:simpleType name="ContactMode">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Personalededicato"/>
+<xs:enumeration value="Canaliautomatici"/>
+<xs:enumeration value="Canalihumantouch"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="ContactMode" nillable="true" type="tns:ContactMode"/>
+<xs:simpleType name="PreferredMeal">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Pastolightnormale"/>
+<xs:enumeration value="Pastolightvegetariano"/>
+<xs:enumeration value="Pastofullnormale"/>
+<xs:enumeration value="Pastofullvegetariano"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PreferredMeal" nillable="true" type="tns:PreferredMeal"/>
+<xs:simpleType name="PreferredClassOfService">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Smart"/>
+<xs:enumeration value="Top"/>
+<xs:enumeration value="Club"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PreferredClassOfService" nillable="true" type="tns:PreferredClassOfService"/>
+<xs:simpleType name="PreferredFareClass">
+<xs:restriction base="xs:string">
+<xs:enumeration value="LowCost"/>
+<xs:enumeration value="Discount"/>
+<xs:enumeration value="Flex"/>
+<xs:enumeration value="Salottino"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PreferredFareClass" nillable="true" type="tns:PreferredFareClass"/>
+<xs:simpleType name="PreferredFilmCategory">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Comico"/>
+<xs:enumeration value="Drammatico"/>
+<xs:enumeration value="Fantascienza"/>
+<xs:enumeration value="Thriller"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PreferredFilmCategory" nillable="true" type="tns:PreferredFilmCategory"/>
+<xs:simpleType name="Document">
+<xs:restriction base="xs:string">
+<xs:enumeration value="CartaIdentita"/>
+<xs:enumeration value="Passaporto"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="Document" nillable="true" type="tns:Document"/>
+<xs:simpleType name="Status">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Acquisito"/>
+<xs:enumeration value="Fidelizzato"/>
+<xs:enumeration value="AcquisitoLight"/>
+<xs:enumeration value="Pending"/>
+<xs:enumeration value="Cancellato"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="Status" nillable="true" type="tns:Status"/>
+<xs:simpleType name="SpecialCustomer">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Vip"/>
+<xs:enumeration value="Giornalista"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="SpecialCustomer" nillable="true" type="tns:SpecialCustomer"/>
+<xs:simpleType name="SeverityBlackList">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Grigio"/>
+<xs:enumeration value="Nero"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="SeverityBlackList" nillable="true" type="tns:SeverityBlackList"/>
+<xs:simpleType name="ContactPersonType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="FATTURAZIONE"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="ContactPersonType" nillable="true" type="tns:ContactPersonType"/>
+<xs:simpleType name="AddressType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="SPEDIZIONE"/>
+<xs:enumeration value="FATTURAZIONE"/>
+<xs:enumeration value="LEGALE"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="AddressType" nillable="true" type="tns:AddressType"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/WebServices">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomerPromotion"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/TrackingCustomerPromotion"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerPromotionAvailability"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/ApplyCustomerPromotion"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomer"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerContacts"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomer"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveFop"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetriveFop"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomerContacts"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertFop"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/DeleteCustomerProfile"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveInvoiceProfile"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertInvoiceProfile"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints" name="GetLoyaltyPointsRequest" nillable="true" type="q1:GetLoyaltyPointsRequest"/>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints" name="GetLoyaltyPointsResponse" nillable="true" type="q2:GetLoyaltyPointsResponse"/>
+<xs:element xmlns:q3="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomerPromotion" name="RetrieveCustomerPromotionRequest" nillable="true" type="q3:RetrieveCustomerPromotionRequest"/>
+<xs:element xmlns:q4="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomerPromotion" name="RetrieveCustomerPromotionResponse" nillable="true" type="q4:RetrieveCustomerPromotionResponse"/>
+<xs:element xmlns:q5="http://schemas.ntvspa.it/BIG/Messages/Customer/TrackingCustomerPromotion" name="TrackingCustomerPromotionRequest" nillable="true" type="q5:TrackingCustomerPromotionRequest"/>
+<xs:element xmlns:q6="http://schemas.ntvspa.it/BIG/Messages/Customer/TrackingCustomerPromotion" name="TrackingCustomerPromotionResponse" nillable="true" type="q6:TrackingCustomerPromotionResponse"/>
+<xs:element xmlns:q7="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerPromotionAvailability" name="GetCustomerPromotionAvailabilityRequest" nillable="true" type="q7:GetCustomerPromotionAvailabilityRequest"/>
+<xs:element xmlns:q8="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerPromotionAvailability" name="GetCustomerPromotionAvailabilityResponse" nillable="true" type="q8:GetCustomerPromotionAvailabilityResponse"/>
+<xs:element xmlns:q9="http://schemas.ntvspa.it/BIG/Messages/Customer/ApplyCustomerPromotion" name="ApplyCustomerPromotionRequest" nillable="true" type="q9:ApplyCustomerPromotionRequest"/>
+<xs:element xmlns:q10="http://schemas.ntvspa.it/BIG/Messages/Customer/ApplyCustomerPromotion" name="ApplyCustomerPromotionResponse" nillable="true" type="q10:ApplyCustomerPromotionResponse"/>
+<xs:element xmlns:q11="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomer" name="UpsertCustomerRequest" nillable="true" type="q11:UpsertCustomerRequest"/>
+<xs:element xmlns:q12="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomer" name="UpsertCustomerResponse" nillable="true" type="q12:UpsertCustomerResponse"/>
+<xs:element xmlns:q13="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerContacts" name="GetCustomerContactsRequest" nillable="true" type="q13:GetCustomerContactsRequest"/>
+<xs:element xmlns:q14="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerContacts" name="GetCustomerContactsResponse" nillable="true" type="q14:GetCustomerContactsResponse"/>
+<xs:element xmlns:q15="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomer" name="RetrieveCustomerRequest" nillable="true" type="q15:RetrieveCustomerRequest"/>
+<xs:element xmlns:q16="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomer" name="RetrieveCustomerResponse" nillable="true" type="q16:RetrieveCustomerResponse"/>
+<xs:element xmlns:q17="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveFop" name="RetrieveFopRequest" nillable="true" type="q17:RetrieveFopRequest"/>
+<xs:element xmlns:q18="http://schemas.ntvspa.it/BIG/Messages/Customer/RetriveFop" name="RetrieveFopResponse" nillable="true" type="q18:RetrieveFopResponse"/>
+<xs:element xmlns:q19="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomerContacts" name="UpsertCustomerContactsRequest" nillable="true" type="q19:UpsertCustomerContactsRequest"/>
+<xs:element xmlns:q20="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomerContacts" name="UpsertCustomerContactsResponse" nillable="true" type="q20:UpsertCustomerContactsResponse"/>
+<xs:element xmlns:q21="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertFop" name="UpsertFopRequest" nillable="true" type="q21:UpsertFopRequest"/>
+<xs:element xmlns:q22="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertFop" name="UpsertFopResponse" nillable="true" type="q22:UpsertFopResponse"/>
+<xs:element xmlns:q23="http://schemas.ntvspa.it/BIG/Messages/Customer/DeleteCustomerProfile" name="DeleteCustomerProfileRequest" nillable="true" type="q23:DeleteCustomerProfileRequest"/>
+<xs:element xmlns:q24="http://schemas.ntvspa.it/BIG/Messages/Customer/DeleteCustomerProfile" name="DeleteCustomerProfileResponse" nillable="true" type="q24:DeleteCustomerProfileResponse"/>
+<xs:element xmlns:q25="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveInvoiceProfile" name="RetrieveInvoiceProfileRequest" nillable="true" type="q25:RetrieveInvoiceProfileRequest"/>
+<xs:element xmlns:q26="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveInvoiceProfile" name="RetrieveInvoiceProfileResponse" nillable="true" type="q26:RetrieveInvoiceProfileResponse"/>
+<xs:element xmlns:q27="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertInvoiceProfile" name="UpsertInvoiceProfileRequest" nillable="true" type="q27:UpsertInvoiceProfileRequest"/>
+<xs:element xmlns:q28="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertInvoiceProfile" name="UpsertInvoiceProfileResponse" nillable="true" type="q28:UpsertInvoiceProfileResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations"/>
+<xs:complexType name="ResponseBase">
+<xs:sequence>
+<xs:element minOccurs="0" name="Warnings" nillable="true" type="tns:ArrayOfWarning">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="Signature" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ResponseBase" nillable="true" type="tns:ResponseBase"/>
+<xs:complexType name="ArrayOfWarning">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="Warning" nillable="true" type="tns:Warning"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfWarning" nillable="true" type="tns:ArrayOfWarning"/>
+<xs:complexType name="Warning">
+<xs:complexContent mixed="false">
+<xs:extension base="tns:ExceptionInfo">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="Warning" nillable="true" type="tns:Warning"/>
+<xs:complexType name="ExceptionInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="Code" type="xs:int"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Enumerations" minOccurs="0" name="Type" type="q1:BIGExceptionType"/>
+<xs:element minOccurs="0" name="Message" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="AdditionalMessages" nillable="true" type="tns:ArrayOfAdditionalMessage">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="Details" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ExceptionInfo" nillable="true" type="tns:ExceptionInfo"/>
+<xs:complexType name="ArrayOfAdditionalMessage">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="AdditionalMessage" nillable="true" type="tns:AdditionalMessage"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfAdditionalMessage" nillable="true" type="tns:ArrayOfAdditionalMessage"/>
+<xs:complexType name="AdditionalMessage">
+<xs:sequence>
+<xs:element minOccurs="0" name="Type" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Message" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="AdditionalMessage" nillable="true" type="tns:AdditionalMessage"/>
+<xs:complexType name="ServiceFault">
+<xs:complexContent mixed="false">
+<xs:extension base="tns:ExceptionInfo">
+<xs:sequence>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Enumerations" minOccurs="0" name="Category" type="q2:BIGExceptionCategory"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="ServiceFault" nillable="true" type="tns:ServiceFault"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Enumerations" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Enumerations">
+<xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+<xs:simpleType name="BIGExceptionType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="GenericInfrastructureError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">100</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="OtherServiceInformation">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">400</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="GenericApplicationWarning">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">500</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="GenericApplicationError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1000</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ValidationFailed">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1001</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BookingNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1002</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BalanceDuePositive">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1003</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FailedToAssignSeats">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1004</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="LogonFailed">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1005</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveFareRestrictions">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1006</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrievePNR">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1007</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="NoCreditOnPNR">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1008</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveVoucher">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1009</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PaymentError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1010</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FareApplicationFailure">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1011</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CorporateAccountPaymentMethodNotAllowed">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1012</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FinalizeBookingFailure">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1013</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="DuplicateBooking">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1014</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveRFITrainNumber">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1015</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CustomerNumberNotMatch">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1016</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CustomerNumberNotExist">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1017</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SellFailure">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1018</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="JourneyOverlap">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1019</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AgentNotAuthorized">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1020</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CommitNotAuthorized">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1021</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="GetFareRestrictionError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1022</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CancelNotAllow">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1023</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="JourneySellKey">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1024</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ModifyNumPax">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1025</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SegmentSellKey">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1026</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PaxSSRNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1027</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ModifyNumJurneys">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1028</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ModifyStation">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1029</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToModifyBooking">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1030</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ModifyNotAllow">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1031</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FailedToUnassignSeats">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1032</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="InvalidSessionToken">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1033</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToAssignToken">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1034</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PaymentIDNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1035</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="NoRefundableAmount">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1036</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CCRefundMandatory">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1037</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="IgnoreRestriction">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1038</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="QueryNotAllow">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1039</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrievePromocode">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1040</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PromocodeNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1041</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PassengerEntityRequired">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1042</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SpecialMealValidation">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1043</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SegmentNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1044</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="NothingToPay">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1045</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="NothingToRefund">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1046</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ReassignSSR">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1047</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PartnerNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1048</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveCustomerPoints">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1049</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveCreditShell">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1050</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToMapLoyaltyPoints">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1051</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveLoyaltyCatalog">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1052</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToModifyBookingWithLoyaltyPoints">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1053</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToModifyFareOfBooking">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1054</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToAddLoyaltyPayment">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1055</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrievePDFTicket">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1056</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveLoyaltyPoints">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1057</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToDiscardTransaction">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1058</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveAvailableCredit">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1059</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveVoucherAmount">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1060</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToDeactivateCustomerAsset">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1061</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="WarningFare">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1062</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MaxSrrOnPassenger">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1063</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="NtvPromoInapplicable">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1064</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveRealTimeStatus">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1065</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ApplicationUnkonwn">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1066</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="DeactivatedAsset">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1067</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AgentNotAllowedtoAddPassengers">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1068</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AgencyCreditPaymentError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1069</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VoucherNotRedeemable">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1070</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="InvalidJourneyOrder">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1071</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveGRMContent">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1072</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BookingContactIsRequired">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1073</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveNAVTrainNumber">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1074</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveBestPrice">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1075</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CyberErrorPayment">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1076</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveCatalog">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1077</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToCreateOrder">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1078</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToFinalizeOrder">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1079</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToAddBookingComments">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1080</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToOverrideFare">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1081</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ProductActivationDateNotValid">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1082</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveAssetID">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1083</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="InvalidPaymentCode">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1084</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="InvalidFareBasis">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1085</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="InvalidDateTime">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1086</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ServiceTimeout">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1087</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PayPalAgreementIDCanceled">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1088</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PayPalRetryReferenceTransaction">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1089</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PayPalPaymentValidationError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1090</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FailedToGenerateExpressCheckoutUrl">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1091</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PayPalRefundBookingCommitFailed">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1092</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FailedToAssignAnySeat">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1093</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="EmailAlreadyInDb">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1094</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="EmailAcquisitoAlreadyInDB">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1095</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="EmailBasicAlreadyInDB">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1096</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PayPalSubmitPaymentFailedOnNSK">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1097</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="RequestInvoiceFailed">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1098</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ExternalPaymentMandatory">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1099</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnauthorizedPromotionUse">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1100</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="InvalidPromotionRequest">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1101</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="InvalidPromotionConfiguration">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1102</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PromotionAlredyApplied">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1103</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PromotionNotAuthorizedForCurrentBooking">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1104</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PromotionAvailabilitySoldOut">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1105</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PromotionNotAppliedForUnexpectedError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1106</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UpsertCustomerFailed">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1107</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AgentNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1108</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UpsertCustomerContactsFailed">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1109</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="NotValidCustomerCredentials">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1110</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UserNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1111</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="EmployeeOfferNotApplicable">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1112</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="OffersNotCombinable">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1113</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="StationNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1114</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FailedToChangeLoyaltyLevel">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1115</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnauthorizedSeatMapAccess">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1116</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnauthorizedAssignSeats">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1117</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnauthorizedModifySeats">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1118</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CyberErrorFop">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1119</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="InvalidData">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1120</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CorporateDomainNotAllowed">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1121</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ChangePromocodeOnEditFlow">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1122</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrieveCustomerPromotion">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1123</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UserNotActive">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1124</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BookingNotInSession">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1125</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BookingDataNotSuitable">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1126</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="OrderTransactionNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1127</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MaxDateExceed">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1128</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="WarningCheckVersion">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1129</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ErrorCheckVersion">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1130</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ErrorCheckPaxType">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1131</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AgentNotAuthorizedForOperation">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1132</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRecognizePartnerID">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1133</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ImpresaMustNotUseCustomer">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1134</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PrevalorizedPartnerID">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1135</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MaxFOPReached">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1136</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="LimitedOperation">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1137</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AmazonPayError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1138</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AmazonPaySoftDeclinedError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1139</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AmazonPayPaymentValidationError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1140</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AmazonPayBillingAgreementNotValidError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1141</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AmazonPayNotEnoughFoundsOnBillingAgreement">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1142</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AmazonPayRefundBookingCommitFailed">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1143</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ExternalPaymentSubmitFailedOnNSK">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1144</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ContactPersonPhoneNumberNull">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1145</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VATNumberAlreadyRegisteredAsTravelAgency">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1146</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ContactPersonPhoneNumberAlreadyRegisteredAsTravelAgency">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1147</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VATNumberAlreadyRegisteredAsItaloImpresaCorporate">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1148</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ContactPersonPhoneNumberAlreadyRegisteredAsItaloImpresaCorporate">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1149</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VATNumberAlreadyRegisteredAsUnmannedCorporate">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1150</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ContactPersonPhoneNumberAlreadyRegistrederAsUnmannedCorporate">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1151</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VATNumberAlreadyRegisteredAsMannedCorporate">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1152</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ContactPersonPhoneNumberAlreadyRegistrederAsMannedCorporate">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1153</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="InvalidVATNumber">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1154</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CartaServiziGenericError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1155</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="DomecGenericError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1156</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="DomecSerialNumberNotFound">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1157</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="IgnoreFareRestrictions">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1158</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRefund">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1159</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToApplyFareLock">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1160</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PaymentMethodNotValidForDeposit">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1161</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ForgotPasswordInvalidToken">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1162</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ForgotPasswordExpiredToken">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1163</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ForgotPasswordAlreadyChanged">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1164</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ForgotPasswordInvalidPassword">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1165</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AgentMustUseRegisteredCarnet">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1500</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AgentNotAuthenticateCarnetRegistered">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1501</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToRetrievePromotion">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1502</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AesConfigurationError">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1503</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToGenerateExternalPartnerUrl">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1504</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="OnlyOnePassenger">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1505</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ErrorinUpgradeRequest">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1506</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ErrorinLoungeRequest">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1507</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ErrorinLeaveNowRequestWrongDirection">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1508</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ErrorinLeaveNowRequestPNRUnable">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1509</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ErrorinPetRequest">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1510</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ErrorInRemovePetSsr">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1511</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ErrorInAddPetSsr">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1512</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UnableToShowSeatForQuantity">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1513</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FailedCustomerDeleteActiveProduct">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1514</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FailedCustomerDeleteActivePurse">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1515</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AgencyDuplicatePartitaIva">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1516</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ItaloImpresaDuplicatePartitaIva">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1517</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CorporateNPDuplicatePartitaIva">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1518</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CorporateDuplicatePartitaIva">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1519</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ItaloBusinessDuplicatePartitaIva">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1520</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PartnerDuplicatePartitaIva">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1521</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="InvalidPartitaIva">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1522</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AgencyDuplicateMail">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1523</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ItaloBusinessDuplicateMail">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1524</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PartnerDuplicateMail">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1525</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ImpresaDuplicateMail">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1526</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CorporateNPDuplicateMail">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1527</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CorporateDuplicateMail">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1528</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="BIGExceptionType" nillable="true" type="tns:BIGExceptionType"/>
+<xs:simpleType name="BIGExceptionCategory">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Application">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">100</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="Infrastructure">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">200</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="BIGExceptionCategory" nillable="true" type="tns:BIGExceptionCategory"/>
+<xs:simpleType name="NationEnum">
+<xs:restriction base="xs:string">
+<xs:enumeration value="ITALIA"/>
+<xs:enumeration value="SAN MARINO"/>
+<xs:enumeration value="CITTA DEL VATICANO"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="NationEnum" nillable="true" type="tns:NationEnum"/>
+<xs:simpleType name="ProvinceEnum">
+<xs:restriction base="xs:string">
+<xs:enumeration value="-">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">-1</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="TORINO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VERCELLI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="NOVARA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CUNEO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ASTI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ALESSANDRIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BIELLA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VERBANO-CUSIO-OSSOLA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VALLE D'AOSTA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VARESE">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="COMO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">10</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SONDRIO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MILANO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">12</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BERGAMO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">13</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BRESCIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">14</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PAVIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">15</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CREMONA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MANTOVA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">17</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="LECCO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">18</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="LODI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">19</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MONZA E DELLA BRIANZA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">20</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BOLZANO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">21</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="TRENTO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">22</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VERONA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">23</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VICENZA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">24</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BELLUNO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">25</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="TREVISO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">26</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VENEZIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">27</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PADOVA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">28</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ROVIGO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">29</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UDINE">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">30</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="GORIZIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">31</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="TRIESTE">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">32</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PORDENONE">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">33</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="IMPERIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">34</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SAVONA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">35</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="GENOVA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">36</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="LA SPEZIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">37</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PIACENZA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">38</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PARMA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">39</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="REGGIO NELL'EMILIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">40</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MODENA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">41</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BOLOGNA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">42</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FERRARA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">43</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="RAVENNA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">44</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FORLI-CESENA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">45</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="RIMINI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">46</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MASSA-CARRARA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">47</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="LUCCA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">48</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PISTOIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">49</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FIRENZE">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">50</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="LIVORNO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">51</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PISA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">52</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AREZZO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">53</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SIENA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">54</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="GROSSETO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">55</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PRATO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">56</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PERUGIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">57</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="TERNI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">58</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PESARO E URBINO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">59</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ANCONA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">60</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MACERATA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">61</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ASCOLI PICENO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">62</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FERMO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">63</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VITERBO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">64</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="RIETI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">65</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ROMA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">66</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="LATINA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">67</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FROSINONE">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">68</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="L'AQUILA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">69</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="TERAMO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">70</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PESCARA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">71</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CHIETI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">72</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CAMPOBASSO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">73</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ISERNIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">74</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CASERTA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">75</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BENEVENTO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">76</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="NAPOLI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">77</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AVELLINO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">78</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SALERNO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">79</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="FOGGIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">80</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BARI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">81</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="TARANTO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">82</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BRINDISI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">83</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="LECCE">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">84</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="BARLETTA-ANDRIA-TRANI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">85</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="POTENZA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">86</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MATERA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">87</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="COSENZA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">88</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CATANZARO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">89</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="REGGIO DI CALABRIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">90</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CROTONE">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">91</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="VIBO VALENTIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">92</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="TRAPANI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">93</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PALERMO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">94</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MESSINA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">95</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="AGRIGENTO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">96</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CALTANISSETTA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">97</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ENNA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">98</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CATANIA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">99</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="RAGUSA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">100</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SIRACUSA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">101</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SASSARI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">102</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="NUORO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">103</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CAGLIARI">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">104</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ORISTANO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">105</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="OLBIA-TEMPIO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">106</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="OGLIASTRA">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">107</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="MEDIO CAMPIDANO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">108</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CARBONIA-INGLESIAS">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">109</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SAN MARINO">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">110</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="ProvinceEnum" nillable="true" type="tns:ProvinceEnum"/>
+<xs:simpleType name="StreetTypeEnum">
+<xs:restriction base="xs:string">
+<xs:enumeration value="BORGO"/>
+<xs:enumeration value="CIRCONVALLAZIONE"/>
+<xs:enumeration value="CONTRADA"/>
+<xs:enumeration value="CORSO"/>
+<xs:enumeration value="CORTE"/>
+<xs:enumeration value="DORSODURO"/>
+<xs:enumeration value="FRAZIONE"/>
+<xs:enumeration value="GALLERIA"/>
+<xs:enumeration value="LARGO"/>
+<xs:enumeration value="LOCALITA"/>
+<xs:enumeration value="PIAZZA"/>
+<xs:enumeration value="PIAZZALE"/>
+<xs:enumeration value="PIAZZETTA"/>
+<xs:enumeration value="RIPA"/>
+<xs:enumeration value="SALITA"/>
+<xs:enumeration value="SESTIERE"/>
+<xs:enumeration value="STRADA"/>
+<xs:enumeration value="STRADONE"/>
+<xs:enumeration value="TRAVERSA"/>
+<xs:enumeration value="VIA"/>
+<xs:enumeration value="VIALE"/>
+<xs:enumeration value="VICO"/>
+<xs:enumeration value="VICOLETTO"/>
+<xs:enumeration value="VICOLO"/>
+<xs:enumeration value="ZONA"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="StreetTypeEnum" nillable="true" type="tns:StreetTypeEnum"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints/Response" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetLoyaltyPoints/Response">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations/Customer"/>
+<xs:complexType name="ArrayOfLoyaltyTransaction">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="LoyaltyTransaction" nillable="true" type="tns:LoyaltyTransaction"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfLoyaltyTransaction" nillable="true" type="tns:ArrayOfLoyaltyTransaction"/>
+<xs:complexType name="LoyaltyTransaction">
+<xs:sequence>
+<xs:element minOccurs="0" name="TransactionDate" type="xs:dateTime"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="TransactionType" type="q1:TransactionTypeEnum"/>
+<xs:element minOccurs="0" name="TransactionSubtype" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PNR" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Points" type="xs:long"/>
+<xs:element minOccurs="0" name="QualifyingPoints" type="xs:long"/>
+<xs:element minOccurs="0" name="RewardProduct" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PartnerName" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Note" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="LoyaltyTransaction" nillable="true" type="tns:LoyaltyTransaction"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomerPromotion" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomerPromotion">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Common/PromotionModel"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="RetrieveCustomerPromotionRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="RetrieveCustomerPromotionRequest" nillable="true" type="tns:RetrieveCustomerPromotionRequest"/>
+<xs:complexType name="RetrieveCustomerPromotionResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q2="http://schemas.ntvspa.it/BIG/Messages" base="q2:ResponseBase">
+<xs:sequence>
+<xs:element xmlns:q3="http://schemas.ntvspa.it/BIG/Messages/Common/PromotionModel" minOccurs="0" name="Promotions" nillable="true" type="q3:ArrayOfPromotion"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="RetrieveCustomerPromotionResponse" nillable="true" type="tns:RetrieveCustomerPromotionResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Common/PromotionModel" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Common/PromotionModel">
+<xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+<xs:complexType name="ArrayOfPromotion">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="Promotion" nillable="true" type="tns:Promotion"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfPromotion" nillable="true" type="tns:ArrayOfPromotion"/>
+<xs:complexType name="Promotion">
+<xs:sequence>
+<xs:element minOccurs="0" name="PromotionId" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Name" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Description" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DisplayedTextIta" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DisplayedTextEng" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PromotionType" type="tns:PromotionType"/>
+<xs:element minOccurs="0" name="Expiration" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="Properties" nillable="true" type="tns:ArrayOfProperty"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Promotion" nillable="true" type="tns:Promotion"/>
+<xs:simpleType name="PromotionType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Lounge"/>
+<xs:enumeration value="MoveWithUpgrade"/>
+<xs:enumeration value="Upgrade"/>
+<xs:enumeration value="Promocode"/>
+<xs:enumeration value="FareType"/>
+<xs:enumeration value="Voucher"/>
+<xs:enumeration value="None">
+<xs:annotation>
+<xs:appinfo>
+<EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">-1</EnumerationValue>
+</xs:appinfo>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PromotionType" nillable="true" type="tns:PromotionType"/>
+<xs:complexType name="ArrayOfProperty">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="Property" nillable="true" type="tns:Property"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfProperty" nillable="true" type="tns:ArrayOfProperty"/>
+<xs:complexType name="Property">
+<xs:sequence>
+<xs:element minOccurs="0" name="Key" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Value" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Property" nillable="true" type="tns:Property"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/TrackingCustomerPromotion" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/TrackingCustomerPromotion">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.TrackingCustomerPromotion.Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="TrackingCustomerPromotionRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+<xs:element name="PromotionId" nillable="true" type="xs:string"/>
+<xs:element name="TrackDate" type="xs:dateTime"/>
+<xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.TrackingCustomerPromotion.Request" name="TrackResult" type="q2:TrackResultType"/>
+<xs:element minOccurs="0" name="Notes" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="TrackingCustomerPromotionRequest" nillable="true" type="tns:TrackingCustomerPromotionRequest"/>
+<xs:complexType name="TrackingCustomerPromotionResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q3="http://schemas.ntvspa.it/BIG/Messages" base="q3:ResponseBase">
+<xs:sequence>
+<xs:element minOccurs="0" name="AcquiredRequest" type="xs:boolean"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="TrackingCustomerPromotionResponse" nillable="true" type="tns:TrackingCustomerPromotionResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.TrackingCustomerPromotion.Request" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.TrackingCustomerPromotion.Request">
+<xs:simpleType name="TrackResultType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="View"/>
+<xs:enumeration value="Agree"/>
+<xs:enumeration value="NotAgree"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="TrackResultType" nillable="true" type="tns:TrackResultType"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerPromotionAvailability" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerPromotionAvailability">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerPromotionAvailability/Response"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="GetCustomerPromotionAvailabilityRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+<xs:element name="PromotionId" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="GetCustomerPromotionAvailabilityRequest" nillable="true" type="tns:GetCustomerPromotionAvailabilityRequest"/>
+<xs:complexType name="GetCustomerPromotionAvailabilityResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q2="http://schemas.ntvspa.it/BIG/Messages" base="q2:ResponseBase">
+<xs:sequence>
+<xs:element minOccurs="0" name="PromotionId" nillable="true" type="xs:string"/>
+<xs:element xmlns:q3="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerPromotionAvailability/Response" minOccurs="0" name="JourneysPromotionApplicable" nillable="true" type="q3:ArrayOfJourneyPromotionApplicable"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="GetCustomerPromotionAvailabilityResponse" nillable="true" type="tns:GetCustomerPromotionAvailabilityResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerPromotionAvailability/Response" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerPromotionAvailability/Response">
+<xs:complexType name="ArrayOfJourneyPromotionApplicable">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="JourneyPromotionApplicable" nillable="true" type="tns:JourneyPromotionApplicable"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfJourneyPromotionApplicable" nillable="true" type="tns:ArrayOfJourneyPromotionApplicable"/>
+<xs:complexType name="JourneyPromotionApplicable">
+<xs:sequence>
+<xs:element minOccurs="0" name="JourneySellKey" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PromotionAmountDuePerPax" type="xs:decimal"/>
+<xs:element minOccurs="0" name="JourneySellKeyForMove" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="JourneyPromotionApplicable" nillable="true" type="tns:JourneyPromotionApplicable"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/ApplyCustomerPromotion" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/ApplyCustomerPromotion">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/ApplyCustomerPromotion/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/Common"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="ApplyCustomerPromotionRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+<xs:element name="PromotionId" nillable="true" type="xs:string"/>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Messages/Customer/ApplyCustomerPromotion/Request" minOccurs="0" name="Journey" nillable="true" type="q2:Journey"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ApplyCustomerPromotionRequest" nillable="true" type="tns:ApplyCustomerPromotionRequest"/>
+<xs:complexType name="ApplyCustomerPromotionResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q3="http://schemas.ntvspa.it/BIG/Messages" base="q3:ResponseBase">
+<xs:sequence>
+<xs:element xmlns:q4="http://schemas.ntvspa.it/BIG/Messages/Booking/Common" minOccurs="0" name="BookingSum" nillable="true" type="q4:BookingSum"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="ApplyCustomerPromotionResponse" nillable="true" type="tns:ApplyCustomerPromotionResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/ApplyCustomerPromotion/Request" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/ApplyCustomerPromotion/Request">
+<xs:complexType name="Journey">
+<xs:sequence>
+<xs:element name="JourneySellKey" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Journey" nillable="true" type="tns:Journey"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Booking/Common" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Booking/Common">
+<xs:complexType name="BookingSum">
+<xs:sequence>
+<xs:element minOccurs="0" name="AuthorizedBalanceDue" type="xs:decimal"/>
+<xs:element minOccurs="0" name="BalanceDue" type="xs:decimal"/>
+<xs:element minOccurs="0" name="TotalCost" type="xs:decimal"/>
+<xs:element minOccurs="0" name="TotalLoyaltyPoints" type="xs:decimal">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="TotalDepositAmount" type="xs:decimal">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="BookingSum" nillable="true" type="tns:BookingSum"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomer" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomer">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.UpsertCustomer.Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomer/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="UpsertCustomerRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+<xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.UpsertCustomer.Request" name="OperationType" type="q2:OperationType"/>
+<xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.UpsertCustomer.Request" minOccurs="0" name="RequestedCustomerType" nillable="true" type="q3:CustomerType"/>
+<xs:element xmlns:q4="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomer/Request" name="Customer" nillable="true" type="q4:Customer"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="UpsertCustomerRequest" nillable="true" type="tns:UpsertCustomerRequest"/>
+<xs:complexType name="UpsertCustomerResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q5="http://schemas.ntvspa.it/BIG/Messages" base="q5:ResponseBase">
+<xs:sequence>
+<xs:element minOccurs="0" name="AcquiredRequest" type="xs:boolean"/>
+<xs:element minOccurs="0" name="CustomerId" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="UpsertCustomerResponse" nillable="true" type="tns:UpsertCustomerResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.UpsertCustomer.Request" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.UpsertCustomer.Request">
+<xs:simpleType name="OperationType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Add"/>
+<xs:enumeration value="Modify"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="OperationType" nillable="true" type="tns:OperationType"/>
+<xs:simpleType name="CustomerType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Light"/>
+<xs:enumeration value="Red"/>
+<xs:enumeration value="Gold"/>
+<xs:enumeration value="Consumer"/>
+<xs:enumeration value="Corporate"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="CustomerType" nillable="true" type="tns:CustomerType"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomer/Request" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomer/Request">
+<xs:import namespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Common.CustomerModel"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations/Customer"/>
+<xs:import namespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Enumerations"/>
+<xs:complexType name="Customer">
+<xs:sequence>
+<xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CustomerId" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Common.CustomerModel" minOccurs="0" name="Gender" nillable="true" type="q1:Gender"/>
+<xs:element minOccurs="0" name="DOB" nillable="true" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="MobilePhone" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Address" nillable="true" type="tns:Address"/>
+<xs:element name="LoginCredentials" nillable="true" type="tns:LoginCredentials"/>
+<xs:element name="Consensus" nillable="true" type="tns:Consensus"/>
+<xs:element minOccurs="0" name="InvitationCode" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Preferences" nillable="true" type="tns:Preferences"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Customer" nillable="true" type="tns:Customer"/>
+<xs:complexType name="Address">
+<xs:sequence>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Enumerations" name="Nation" type="q2:NationEnum"/>
+<xs:element name="City" nillable="true" type="xs:string"/>
+<xs:element xmlns:q3="http://schemas.ntvspa.it/BIG/Enumerations" name="Province" type="q3:ProvinceEnum"/>
+<xs:element xmlns:q4="http://schemas.ntvspa.it/BIG/Enumerations" name="StreetType" type="q4:StreetTypeEnum"/>
+<xs:element name="StreetName" nillable="true" type="xs:string"/>
+<xs:element name="HouseNumber" nillable="true" type="xs:string"/>
+<xs:element name="ZipCode" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Address" nillable="true" type="tns:Address"/>
+<xs:complexType name="LoginCredentials">
+<xs:sequence>
+<xs:element name="UserId" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Password" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="NewUserId" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Domain" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="LoginCredentials" nillable="true" type="tns:LoginCredentials"/>
+<xs:complexType name="Consensus">
+<xs:sequence>
+<xs:element minOccurs="0" name="ConsensusForProcessingOfPersonalData" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ConsensusToMarketingInformation" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ConsensusToThirdPartyPrivacy" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ConsensusToProfiling" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Consensus" nillable="true" type="tns:Consensus"/>
+<xs:complexType name="Preferences">
+<xs:sequence>
+<xs:element minOccurs="0" name="FixedPhone" nillable="true" type="xs:string"/>
+<xs:element xmlns:q5="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="FixedPhoneType" nillable="true" type="q5:FixedPhone"/>
+<xs:element xmlns:q6="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="FavoriteContactMethod" nillable="true" type="q6:FavoriteContactMethod"/>
+<xs:element xmlns:q7="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="Profession" nillable="true" type="q7:Profession"/>
+<xs:element xmlns:q8="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="ProfessionalSector" nillable="true" type="q8:ProfessionalSector"/>
+<xs:element xmlns:q9="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="InterestsType" nillable="true" type="q9:ArrayOfInterest"/>
+<xs:element xmlns:q10="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="TravelReason" nillable="true" type="q10:TravelReason"/>
+<xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/NTV.BIG.Enumerations" minOccurs="0" name="Culture" nillable="true" type="q11:Culture"/>
+<xs:element xmlns:q12="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="PreferredSeat" nillable="true" type="q12:PreferredSeat"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Preferences" nillable="true" type="tns:Preferences"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Common.CustomerModel" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Common.CustomerModel">
+<xs:simpleType name="Gender">
+<xs:restriction base="xs:string">
+<xs:enumeration value="M"/>
+<xs:enumeration value="F"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="Gender" nillable="true" type="tns:Gender"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/NTV.BIG.Enumerations" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Enumerations">
+<xs:simpleType name="Culture">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Italian"/>
+<xs:enumeration value="English"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="Culture" nillable="true" type="tns:Culture"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerContacts" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/GetCustomerContacts">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Common"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="GetCustomerContactsRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="GetCustomerContactsRequest" nillable="true" type="tns:GetCustomerContactsRequest"/>
+<xs:complexType name="GetCustomerContactsResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q2="http://schemas.ntvspa.it/BIG/Messages" base="q2:ResponseBase">
+<xs:sequence>
+<xs:element xmlns:q3="http://schemas.ntvspa.it/BIG/Messages/Common" minOccurs="0" name="Contacts" nillable="true" type="q3:ArrayOfContact"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="GetCustomerContactsResponse" nillable="true" type="tns:GetCustomerContactsResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Common" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Common">
+<xs:complexType name="ArrayOfContact">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="Contact" nillable="true" type="tns:Contact"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfContact" nillable="true" type="tns:ArrayOfContact"/>
+<xs:complexType name="Contact">
+<xs:sequence>
+<xs:element minOccurs="0" name="Name" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CustomerId" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="Email" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="Phone" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="Fax" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Contact" nillable="true" type="tns:Contact"/>
+<xs:complexType name="ArrayOfFop">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="Fop" nillable="true" type="tns:Fop"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfFop" nillable="true" type="tns:ArrayOfFop"/>
+<xs:complexType name="Fop">
+<xs:sequence>
+<xs:element minOccurs="0" name="FopId" type="xs:long"/>
+<xs:element minOccurs="0" name="AccountNumber" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PaymentMethodeCode" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PaymentMethodeType" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="AccountName" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Expiration" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="AccountNumberId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Fop" nillable="true" type="tns:Fop"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomer" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomer">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations/Customer"/>
+<xs:import namespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Common.CustomerModel"/>
+<xs:import namespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Enumerations"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomer/Response"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="RetrieveCustomerRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="RetrieveCustomerRequest" nillable="true" type="tns:RetrieveCustomerRequest"/>
+<xs:complexType name="RetrieveCustomerResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q2="http://schemas.ntvspa.it/BIG/Messages" base="q2:ResponseBase">
+<xs:sequence>
+<xs:element minOccurs="0" name="Name" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="SurnameLegalName" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="ForeignVatNumber" type="xs:boolean"/>
+<xs:element minOccurs="0" name="TaxCodeVatNumber" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="CustomerId" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="SoleProprietorship" type="xs:boolean"/>
+<xs:element xmlns:q3="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="Title" nillable="true" type="q3:Title">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q4="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="Segment" nillable="true" type="q4:Segment">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="FixedPhone" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q5="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="FixedPhoneType" nillable="true" type="q5:FixedPhone">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="AlternativePhone" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="MobilePhone" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="Email" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="Fax" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="InstantMessaging" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="ConsensusForProcessingOfPersonalData" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ConsensusToMarketingInformation" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ConsensusToThirdPartyPrivacy" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ConsensusToProfiling" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ConsensusToProfilingDate" type="xs:dateTime">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="ConsensusToMarketingInformationDate" type="xs:dateTime">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q6="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="TravelReason" nillable="true" type="q6:TravelReason">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="SpecialNeeds" type="xs:boolean"/>
+<xs:element minOccurs="0" name="DOB" type="xs:dateTime">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="Birthplace" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Common.CustomerModel" minOccurs="0" name="Gender" nillable="true" type="q7:Gender">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q8="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="FavoritePaymentMethod" nillable="true" type="q8:PaymentMethod">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q9="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="FavoriteContactMethod" nillable="true" type="q9:FavoriteContactMethod">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q10="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="FavoriteContactSlot" nillable="true" type="q10:FavoriteContactSlot">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/NTV.BIG.Enumerations" minOccurs="0" name="CultureLanguage" nillable="true" type="q11:Culture">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q12="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="Profession" nillable="true" type="q12:Profession">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q13="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="ProfessionalSector" nillable="true" type="q13:ProfessionalSector">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="Notes" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q14="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="AcquisitionChannel" nillable="true" type="q14:AcquisitionChannel">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q15="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="ContactMode" nillable="true" type="q15:ContactMode">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q16="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="PreferredSeat" nillable="true" type="q16:PreferredSeat">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q17="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="PreferredMeal" nillable="true" type="q17:PreferredMeal">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q18="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="PreferredClassOfService" nillable="true" type="q18:PreferredClassOfService">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q19="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="PreferredFareClass" nillable="true" type="q19:PreferredFareClass">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q20="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="PreferredFilmCategory" nillable="true" type="q20:PreferredFilmCategory">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="UsualTransport" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q21="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="InterestsType" nillable="true" type="q21:ArrayOfInterest">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="FlagOnboardWiFi" type="xs:boolean"/>
+<xs:element xmlns:q22="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="DocumentType" nillable="true" type="q22:Document">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="DocumentNumber" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q23="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="Status" nillable="true" type="q23:Status">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="DateOfConsensusAcceptance" type="xs:dateTime">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="FlagIsEmployee" type="xs:boolean"/>
+<xs:element minOccurs="0" name="FlagIsEmployeeParent" type="xs:boolean"/>
+<xs:element xmlns:q24="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="BelongingToSpecialCustomerClass" nillable="true" type="q24:SpecialCustomer">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="CustomerRating" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="CustomerRisk" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q25="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="SeverityBlackList" nillable="true" type="q25:SeverityBlackList">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="ReasonBlackList" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="ClubDellaClub" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ClubDellaClubStartDate" type="xs:dateTime">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="ClubDellaClubFinishDate" type="xs:dateTime">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="BillingAgreementId" nillable="true" type="xs:string">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="AmexCardHolder" type="xs:boolean"/>
+<xs:element minOccurs="0" name="AmexCardActivationDate" type="xs:dateTime">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="0" name="AmexCardExpirationDate" type="xs:dateTime">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q26="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomer/Response" minOccurs="0" name="ContactPerson" nillable="true" type="q26:ArrayOfContactPerson">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element xmlns:q27="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomer/Response" minOccurs="0" name="Address" nillable="true" type="q27:ArrayOfAddress">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="RetrieveCustomerResponse" nillable="true" type="tns:RetrieveCustomerResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomer/Response" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveCustomer/Response">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations/Customer"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations"/>
+<xs:complexType name="ArrayOfContactPerson">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="ContactPerson" nillable="true" type="tns:ContactPerson"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfContactPerson" nillable="true" type="tns:ArrayOfContactPerson"/>
+<xs:complexType name="ContactPerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FixedNumber" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="MobilePhone" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Email" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="BillCode" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="Title" nillable="true" type="q1:Title"/>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="Type" nillable="true" type="q2:ContactPersonType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ContactPerson" nillable="true" type="tns:ContactPerson"/>
+<xs:complexType name="ArrayOfAddress">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="Address" nillable="true" type="tns:Address"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfAddress" nillable="true" type="tns:ArrayOfAddress"/>
+<xs:complexType name="Address">
+<xs:sequence>
+<xs:element xmlns:q3="http://schemas.ntvspa.it/BIG/Enumerations" name="Nation" type="q3:NationEnum"/>
+<xs:element name="City" nillable="true" type="xs:string"/>
+<xs:element xmlns:q4="http://schemas.ntvspa.it/BIG/Enumerations" name="Province" type="q4:ProvinceEnum"/>
+<xs:element xmlns:q5="http://schemas.ntvspa.it/BIG/Enumerations" name="StreetType" type="q5:StreetTypeEnum"/>
+<xs:element name="StreetName" nillable="true" type="xs:string"/>
+<xs:element name="HouseNumber" nillable="true" type="xs:string"/>
+<xs:element name="ZipCode" nillable="true" type="xs:string"/>
+<xs:element xmlns:q6="http://schemas.ntvspa.it/BIG/Enumerations/Customer" minOccurs="0" name="AddressType" nillable="true" type="q6:AddressType">
+<xs:annotation>
+<xs:appinfo>
+<DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Address" nillable="true" type="tns:Address"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveFop" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveFop">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:complexType name="RetrieveFopRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="RetrieveFopRequest" nillable="true" type="tns:RetrieveFopRequest"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/RetriveFop" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetriveFop">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Common"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="RetrieveFopResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q1="http://schemas.ntvspa.it/BIG/Messages" base="q1:ResponseBase">
+<xs:sequence>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Messages/Common" minOccurs="0" name="FopList" nillable="true" type="q2:ArrayOfFop"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="RetrieveFopResponse" nillable="true" type="tns:RetrieveFopResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomerContacts" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomerContacts">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomerContacts/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="UpsertCustomerContactsRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomerContacts/Request" name="Contacts" nillable="true" type="q2:ArrayOfContact"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="UpsertCustomerContactsRequest" nillable="true" type="tns:UpsertCustomerContactsRequest"/>
+<xs:complexType name="UpsertCustomerContactsResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q3="http://schemas.ntvspa.it/BIG/Messages" base="q3:ResponseBase">
+<xs:sequence>
+<xs:element minOccurs="0" name="AcquiredRequest" type="xs:boolean"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="UpsertCustomerContactsResponse" nillable="true" type="tns:UpsertCustomerContactsResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomerContacts/Request" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertCustomerContacts/Request">
+<xs:complexType name="ArrayOfContact">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="Contact" nillable="true" type="tns:Contact"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfContact" nillable="true" type="tns:ArrayOfContact"/>
+<xs:complexType name="Contact">
+<xs:sequence>
+<xs:element name="Name" nillable="true" type="xs:string"/>
+<xs:element name="Surname" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CustomerId" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Email" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Phone" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Contact" nillable="true" type="tns:Contact"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertFop" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertFop">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.UpsertFop.Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="UpsertFopRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+<xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.UpsertFop.Request" name="OperationType" type="q2:OperationType"/>
+<xs:element name="PaymentMethodCode" nillable="true" type="xs:string"/>
+<xs:element name="AccountNumber" nillable="true" type="xs:string"/>
+<xs:element name="AccountName" nillable="true" type="xs:string"/>
+<xs:element name="Expiration" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="FopId" nillable="true" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="UpsertFopRequest" nillable="true" type="tns:UpsertFopRequest"/>
+<xs:complexType name="UpsertFopResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q3="http://schemas.ntvspa.it/BIG/Messages" base="q3:ResponseBase">
+<xs:sequence>
+<xs:element minOccurs="0" name="AcquiredRequest" type="xs:boolean"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="UpsertFopResponse" nillable="true" type="tns:UpsertFopResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.UpsertFop.Request" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/NTV.BIG.Messages.Customer.UpsertFop.Request">
+<xs:simpleType name="OperationType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Add"/>
+<xs:enumeration value="Modify"/>
+<xs:enumeration value="Delete"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="OperationType" nillable="true" type="tns:OperationType"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/DeleteCustomerProfile" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/DeleteCustomerProfile">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="DeleteCustomerProfileRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+<xs:element name="CustomerID" nillable="true" type="xs:string"/>
+<xs:element name="Email" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="DeleteCustomerProfileRequest" nillable="true" type="tns:DeleteCustomerProfileRequest"/>
+<xs:complexType name="DeleteCustomerProfileResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q2="http://schemas.ntvspa.it/BIG/Messages" base="q2:ResponseBase">
+<xs:sequence>
+<xs:element minOccurs="0" name="AcquiredRequest" type="xs:boolean"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="DeleteCustomerProfileResponse" nillable="true" type="tns:DeleteCustomerProfileResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveInvoiceProfile" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveInvoiceProfile">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveInvoiceProfile/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="RetrieveInvoiceProfileRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="RetrieveInvoiceProfileRequest" nillable="true" type="tns:RetrieveInvoiceProfileRequest"/>
+<xs:complexType name="RetrieveInvoiceProfileResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q2="http://schemas.ntvspa.it/BIG/Messages" base="q2:ResponseBase">
+<xs:sequence>
+<xs:element xmlns:q3="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveInvoiceProfile/Request" minOccurs="0" name="InvoiceProfile" nillable="true" type="q3:ArrayOfInvoiceProfile"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="RetrieveInvoiceProfileResponse" nillable="true" type="tns:RetrieveInvoiceProfileResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveInvoiceProfile/Request" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/RetrieveInvoiceProfile/Request">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations/Product"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations"/>
+<xs:complexType name="ArrayOfInvoiceProfile">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="InvoiceProfile" nillable="true" type="tns:InvoiceProfile"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfInvoiceProfile" nillable="true" type="tns:ArrayOfInvoiceProfile"/>
+<xs:complexType name="InvoiceProfile">
+<xs:sequence>
+<xs:element minOccurs="0" name="Name" nillable="true" type="xs:string"/>
+<xs:element name="SurnameLegalName" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PartitaIva" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FiscalCode" nillable="true" type="xs:string"/>
+<xs:element name="Email" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FlagOnlus" type="xs:boolean"/>
+<xs:element minOccurs="0" name="FlagGruppoIva" type="xs:boolean"/>
+<xs:element minOccurs="0" name="RecipientCode" nillable="true" type="xs:string"/>
+<xs:element name="Address" nillable="true" type="tns:Address"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Enumerations/Product" minOccurs="0" name="PersonType" nillable="true" type="q1:PersonType"/>
+<xs:element minOccurs="0" name="DefaultProfile" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="InvoiceProfile" nillable="true" type="tns:InvoiceProfile"/>
+<xs:complexType name="Address">
+<xs:sequence>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Enumerations" name="Nation" type="q2:NationEnum"/>
+<xs:element name="City" nillable="true" type="xs:string"/>
+<xs:element xmlns:q3="http://schemas.ntvspa.it/BIG/Enumerations" name="Province" type="q3:ProvinceEnum"/>
+<xs:element xmlns:q4="http://schemas.ntvspa.it/BIG/Enumerations" name="StreetType" type="q4:StreetTypeEnum"/>
+<xs:element name="StreetName" nillable="true" type="xs:string"/>
+<xs:element name="HouseNumber" nillable="true" type="xs:string"/>
+<xs:element name="ZipCode" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Address" nillable="true" type="tns:Address"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Enumerations/Product" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Enumerations/Product">
+<xs:simpleType name="PersonType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="NATURAL PERSON"/>
+<xs:enumeration value="LEGAL PERSON"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PersonType" nillable="true" type="tns:PersonType"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertInvoiceProfile" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertInvoiceProfile">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertInvoiceProfile/Request"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Messages"/>
+<xs:complexType name="UpsertInvoiceProfileRequest">
+<xs:sequence>
+<xs:element name="Signature" nillable="true" type="xs:string"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Messages/Booking/FinalizeBooking/Request" name="SourceSystem" type="q1:SourceSystem"/>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertInvoiceProfile/Request" minOccurs="0" name="InvoiceProfile" nillable="true" type="q2:ArrayOfInvoiceProfile"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="UpsertInvoiceProfileRequest" nillable="true" type="tns:UpsertInvoiceProfileRequest"/>
+<xs:complexType name="UpsertInvoiceProfileResponse">
+<xs:complexContent mixed="false">
+<xs:extension xmlns:q3="http://schemas.ntvspa.it/BIG/Messages" base="q3:ResponseBase">
+<xs:sequence>
+<xs:element minOccurs="0" name="AcquiredRequest" type="xs:boolean"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:element name="UpsertInvoiceProfileResponse" nillable="true" type="tns:UpsertInvoiceProfileResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertInvoiceProfile/Request" elementFormDefault="qualified" targetNamespace="http://schemas.ntvspa.it/BIG/Messages/Customer/UpsertInvoiceProfile/Request">
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations/Product"/>
+<xs:import namespace="http://schemas.ntvspa.it/BIG/Enumerations"/>
+<xs:complexType name="ArrayOfInvoiceProfile">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="InvoiceProfile" nillable="true" type="tns:InvoiceProfile"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfInvoiceProfile" nillable="true" type="tns:ArrayOfInvoiceProfile"/>
+<xs:complexType name="InvoiceProfile">
+<xs:sequence>
+<xs:element minOccurs="0" name="Name" nillable="true" type="xs:string"/>
+<xs:element name="SurnameLegalName" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PartitaIva" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FiscalCode" nillable="true" type="xs:string"/>
+<xs:element name="Email" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FlagOnlus" type="xs:boolean"/>
+<xs:element minOccurs="0" name="FlagGruppoIva" type="xs:boolean"/>
+<xs:element minOccurs="0" name="RecipientCode" nillable="true" type="xs:string"/>
+<xs:element name="Address" nillable="true" type="tns:Address"/>
+<xs:element xmlns:q1="http://schemas.ntvspa.it/BIG/Enumerations/Product" minOccurs="0" name="PersonType" nillable="true" type="q1:PersonType"/>
+<xs:element minOccurs="0" name="DefaultProfile" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="InvoiceProfile" nillable="true" type="tns:InvoiceProfile"/>
+<xs:complexType name="Address">
+<xs:sequence>
+<xs:element xmlns:q2="http://schemas.ntvspa.it/BIG/Enumerations" name="Nation" type="q2:NationEnum"/>
+<xs:element name="City" nillable="true" type="xs:string"/>
+<xs:element xmlns:q3="http://schemas.ntvspa.it/BIG/Enumerations" name="Province" type="q3:ProvinceEnum"/>
+<xs:element xmlns:q4="http://schemas.ntvspa.it/BIG/Enumerations" name="StreetType" type="q4:StreetTypeEnum"/>
+<xs:element name="StreetName" nillable="true" type="xs:string"/>
+<xs:element name="HouseNumber" nillable="true" type="xs:string"/>
+<xs:element name="ZipCode" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Address" nillable="true" type="tns:Address"/>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="GetLoyaltyPointsRequest">
+<wsdl:part name="GetLoyaltyPointsRequest" element="tns:GetLoyaltyPointsRequest"/>
+</wsdl:message>
+<wsdl:message name="GetLoyaltyPointsResponse">
+<wsdl:part name="GetLoyaltyPointsResponse" element="tns:GetLoyaltyPointsResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_GetLoyaltyPoints_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q1="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q1:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="RetrieveCustomerPromotionRequest">
+<wsdl:part name="RetrieveCustomerPromotionRequest" element="tns:RetrieveCustomerPromotionRequest"/>
+</wsdl:message>
+<wsdl:message name="RetrieveCustomerPromotionResponse">
+<wsdl:part name="RetrieveCustomerPromotionResponse" element="tns:RetrieveCustomerPromotionResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_RetrieveCustomerPromotion_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q2="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q2:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="TrackingCustomerPromotionRequest">
+<wsdl:part name="TrackingCustomerPromotionRequest" element="tns:TrackingCustomerPromotionRequest"/>
+</wsdl:message>
+<wsdl:message name="TrackingCustomerPromotionResponse">
+<wsdl:part name="TrackingCustomerPromotionResponse" element="tns:TrackingCustomerPromotionResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_TrackingCustomerPromotion_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q3="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q3:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="GetCustomerPromotionAvailabilityRequest">
+<wsdl:part name="GetCustomerPromotionAvailabilityRequest" element="tns:GetCustomerPromotionAvailabilityRequest"/>
+</wsdl:message>
+<wsdl:message name="GetCustomerPromotionAvailabilityResponse">
+<wsdl:part name="GetCustomerPromotionAvailabilityResponse" element="tns:GetCustomerPromotionAvailabilityResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_GetCustomerPromotionAvailability_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q4="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q4:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="ApplyCustomerPromotionRequest">
+<wsdl:part name="ApplyCustomerPromotionRequest" element="tns:ApplyCustomerPromotionRequest"/>
+</wsdl:message>
+<wsdl:message name="ApplyCustomerPromotionResponse">
+<wsdl:part name="ApplyCustomerPromotionResponse" element="tns:ApplyCustomerPromotionResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_ApplyCustomerPromotion_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q5="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q5:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="UpsertCustomerRequest">
+<wsdl:part name="UpsertCustomerRequest" element="tns:UpsertCustomerRequest"/>
+</wsdl:message>
+<wsdl:message name="UpsertCustomerResponse">
+<wsdl:part name="UpsertCustomerResponse" element="tns:UpsertCustomerResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_UpsertCustomer_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q6="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q6:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="GetCustomerContactsRequest">
+<wsdl:part name="GetCustomerContactsRequest" element="tns:GetCustomerContactsRequest"/>
+</wsdl:message>
+<wsdl:message name="GetCustomerContactsResponse">
+<wsdl:part name="GetCustomerContactsResponse" element="tns:GetCustomerContactsResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_GetCustomerContacts_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q7="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q7:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="RetrieveCustomerRequest">
+<wsdl:part name="RetrieveCustomerRequest" element="tns:RetrieveCustomerRequest"/>
+</wsdl:message>
+<wsdl:message name="RetrieveCustomerResponse">
+<wsdl:part name="RetrieveCustomerResponse" element="tns:RetrieveCustomerResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_RetrieveCustomer_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q8="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q8:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="RetrieveFopRequest">
+<wsdl:part name="RetrieveFopRequest" element="tns:RetrieveFopRequest"/>
+</wsdl:message>
+<wsdl:message name="RetrieveFopResponse">
+<wsdl:part name="RetrieveFopResponse" element="tns:RetrieveFopResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_RetrieveFop_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q9="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q9:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="UpsertCustomerContactsRequest">
+<wsdl:part name="UpsertCustomerContactsRequest" element="tns:UpsertCustomerContactsRequest"/>
+</wsdl:message>
+<wsdl:message name="UpsertCustomerContactsResponse">
+<wsdl:part name="UpsertCustomerContactsResponse" element="tns:UpsertCustomerContactsResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_UpsertCustomerContatcs_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q10="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q10:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="UpsertFopRequest">
+<wsdl:part name="UpsertFopRequest" element="tns:UpsertFopRequest"/>
+</wsdl:message>
+<wsdl:message name="UpsertFopResponse">
+<wsdl:part name="UpsertFopResponse" element="tns:UpsertFopResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_UpsertFop_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q11="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q11:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="DeleteCustomerProfileRequest">
+<wsdl:part name="DeleteCustomerProfileRequest" element="tns:DeleteCustomerProfileRequest"/>
+</wsdl:message>
+<wsdl:message name="DeleteCustomerProfileResponse">
+<wsdl:part name="DeleteCustomerProfileResponse" element="tns:DeleteCustomerProfileResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_DeleteCustomerProfile_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q12="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q12:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="RetrieveInvoiceProfileRequest">
+<wsdl:part name="RetrieveInvoiceProfileRequest" element="tns:RetrieveInvoiceProfileRequest"/>
+</wsdl:message>
+<wsdl:message name="RetrieveInvoiceProfileResponse">
+<wsdl:part name="RetrieveInvoiceProfileResponse" element="tns:RetrieveInvoiceProfileResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_RetrieveInvoiceProfile_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q13="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q13:ServiceFault"/>
+</wsdl:message>
+<wsdl:message name="UpsertInvoiceProfileRequest">
+<wsdl:part name="UpsertInvoiceProfileRequest" element="tns:UpsertInvoiceProfileRequest"/>
+</wsdl:message>
+<wsdl:message name="UpsertInvoiceProfileResponse">
+<wsdl:part name="UpsertInvoiceProfileResponse" element="tns:UpsertInvoiceProfileResponse"/>
+</wsdl:message>
+<wsdl:message name="ICustomerManager_UpsertInvoiceProfile_ServiceFaultFault_FaultMessage">
+<wsdl:part xmlns:q14="http://schemas.ntvspa.it/BIG/Messages" name="detail" element="q14:ServiceFault"/>
+</wsdl:message>
+<wsdl:portType name="ICustomerManager">
+<wsdl:operation name="GetLoyaltyPoints">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetLoyaltyPoints" name="GetLoyaltyPointsRequest" message="tns:GetLoyaltyPointsRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetLoyaltyPointsResponse" name="GetLoyaltyPointsResponse" message="tns:GetLoyaltyPointsResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetLoyaltyPointsServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_GetLoyaltyPoints_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="RetrieveCustomerPromotion">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveCustomerPromotion" name="RetrieveCustomerPromotionRequest" message="tns:RetrieveCustomerPromotionRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveCustomerPromotionResponse" name="RetrieveCustomerPromotionResponse" message="tns:RetrieveCustomerPromotionResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveCustomerPromotionServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_RetrieveCustomerPromotion_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="TrackingCustomerPromotion">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/TrackingCustomerPromotion" name="TrackingCustomerPromotionRequest" message="tns:TrackingCustomerPromotionRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/TrackingCustomerPromotionResponse" name="TrackingCustomerPromotionResponse" message="tns:TrackingCustomerPromotionResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/TrackingCustomerPromotionServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_TrackingCustomerPromotion_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="GetCustomerPromotionAvailability">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetCustomerPromotionAvailability" name="GetCustomerPromotionAvailabilityRequest" message="tns:GetCustomerPromotionAvailabilityRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetCustomerPromotionAvailabilityResponse" name="GetCustomerPromotionAvailabilityResponse" message="tns:GetCustomerPromotionAvailabilityResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetCustomerPromotionAvailabilityServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_GetCustomerPromotionAvailability_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="ApplyCustomerPromotion">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/ApplyCustomerPromotion" name="ApplyCustomerPromotionRequest" message="tns:ApplyCustomerPromotionRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/ApplyCustomerPromotionResponse" name="ApplyCustomerPromotionResponse" message="tns:ApplyCustomerPromotionResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/ApplyCustomerPromotionServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_ApplyCustomerPromotion_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="UpsertCustomer">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertCustomer" name="UpsertCustomerRequest" message="tns:UpsertCustomerRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertCustomerResponse" name="UpsertCustomerResponse" message="tns:UpsertCustomerResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertCustomerServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_UpsertCustomer_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="GetCustomerContacts">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetCustomerContacts" name="GetCustomerContactsRequest" message="tns:GetCustomerContactsRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetCustomerContactsResponse" name="GetCustomerContactsResponse" message="tns:GetCustomerContactsResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetCustomerContactsServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_GetCustomerContacts_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="RetrieveCustomer">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveCustomer" name="RetrieveCustomerRequest" message="tns:RetrieveCustomerRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveCustomerResponse" name="RetrieveCustomerResponse" message="tns:RetrieveCustomerResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveCustomerServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_RetrieveCustomer_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="RetrieveFop">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveFop" name="RetrieveFopRequest" message="tns:RetrieveFopRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveFopResponse" name="RetrieveFopResponse" message="tns:RetrieveFopResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveFopServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_RetrieveFop_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="UpsertCustomerContatcs">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertCustomerContatcs" name="UpsertCustomerContactsRequest" message="tns:UpsertCustomerContactsRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertCustomerContatcsResponse" name="UpsertCustomerContactsResponse" message="tns:UpsertCustomerContactsResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertCustomerContatcsServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_UpsertCustomerContatcs_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="UpsertFop">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertFop" name="UpsertFopRequest" message="tns:UpsertFopRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertFopResponse" name="UpsertFopResponse" message="tns:UpsertFopResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertFopServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_UpsertFop_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="DeleteCustomerProfile">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/DeleteCustomerProfile" name="DeleteCustomerProfileRequest" message="tns:DeleteCustomerProfileRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/DeleteCustomerProfileResponse" name="DeleteCustomerProfileResponse" message="tns:DeleteCustomerProfileResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/DeleteCustomerProfileServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_DeleteCustomerProfile_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="RetrieveInvoiceProfile">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveInvoiceProfile" name="RetrieveInvoiceProfileRequest" message="tns:RetrieveInvoiceProfileRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveInvoiceProfileResponse" name="RetrieveInvoiceProfileResponse" message="tns:RetrieveInvoiceProfileResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveInvoiceProfileServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_RetrieveInvoiceProfile_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+<wsdl:operation name="UpsertInvoiceProfile">
+<wsdl:input wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertInvoiceProfile" name="UpsertInvoiceProfileRequest" message="tns:UpsertInvoiceProfileRequest"/>
+<wsdl:output wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertInvoiceProfileResponse" name="UpsertInvoiceProfileResponse" message="tns:UpsertInvoiceProfileResponse"/>
+<wsdl:fault wsaw:Action="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertInvoiceProfileServiceFaultFault" name="ServiceFaultFault" message="tns:ICustomerManager_UpsertInvoiceProfile_ServiceFaultFault_FaultMessage"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="BasicHttpBinding_ICustomerManager" type="tns:ICustomerManager">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="GetLoyaltyPoints">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetLoyaltyPoints" style="document"/>
+<wsdl:input name="GetLoyaltyPointsRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="GetLoyaltyPointsResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="RetrieveCustomerPromotion">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveCustomerPromotion" style="document"/>
+<wsdl:input name="RetrieveCustomerPromotionRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="RetrieveCustomerPromotionResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="TrackingCustomerPromotion">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/TrackingCustomerPromotion" style="document"/>
+<wsdl:input name="TrackingCustomerPromotionRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="TrackingCustomerPromotionResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="GetCustomerPromotionAvailability">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetCustomerPromotionAvailability" style="document"/>
+<wsdl:input name="GetCustomerPromotionAvailabilityRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="GetCustomerPromotionAvailabilityResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="ApplyCustomerPromotion">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/ApplyCustomerPromotion" style="document"/>
+<wsdl:input name="ApplyCustomerPromotionRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="ApplyCustomerPromotionResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="UpsertCustomer">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertCustomer" style="document"/>
+<wsdl:input name="UpsertCustomerRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="UpsertCustomerResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="GetCustomerContacts">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetCustomerContacts" style="document"/>
+<wsdl:input name="GetCustomerContactsRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="GetCustomerContactsResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="RetrieveCustomer">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveCustomer" style="document"/>
+<wsdl:input name="RetrieveCustomerRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="RetrieveCustomerResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="RetrieveFop">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveFop" style="document"/>
+<wsdl:input name="RetrieveFopRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="RetrieveFopResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="UpsertCustomerContatcs">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertCustomerContatcs" style="document"/>
+<wsdl:input name="UpsertCustomerContactsRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="UpsertCustomerContactsResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="UpsertFop">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertFop" style="document"/>
+<wsdl:input name="UpsertFopRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="UpsertFopResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="DeleteCustomerProfile">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/DeleteCustomerProfile" style="document"/>
+<wsdl:input name="DeleteCustomerProfileRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="DeleteCustomerProfileResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="RetrieveInvoiceProfile">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveInvoiceProfile" style="document"/>
+<wsdl:input name="RetrieveInvoiceProfileRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="RetrieveInvoiceProfileResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="UpsertInvoiceProfile">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertInvoiceProfile" style="document"/>
+<wsdl:input name="UpsertInvoiceProfileRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="UpsertInvoiceProfileResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:binding name="BasicHttpBinding_ICustomerManager1" type="tns:ICustomerManager">
+<wsp:PolicyReference URI="#BasicHttpBinding_ICustomerManager1_policy"/>
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="GetLoyaltyPoints">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetLoyaltyPoints" style="document"/>
+<wsdl:input name="GetLoyaltyPointsRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="GetLoyaltyPointsResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="RetrieveCustomerPromotion">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveCustomerPromotion" style="document"/>
+<wsdl:input name="RetrieveCustomerPromotionRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="RetrieveCustomerPromotionResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="TrackingCustomerPromotion">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/TrackingCustomerPromotion" style="document"/>
+<wsdl:input name="TrackingCustomerPromotionRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="TrackingCustomerPromotionResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="GetCustomerPromotionAvailability">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetCustomerPromotionAvailability" style="document"/>
+<wsdl:input name="GetCustomerPromotionAvailabilityRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="GetCustomerPromotionAvailabilityResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="ApplyCustomerPromotion">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/ApplyCustomerPromotion" style="document"/>
+<wsdl:input name="ApplyCustomerPromotionRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="ApplyCustomerPromotionResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="UpsertCustomer">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertCustomer" style="document"/>
+<wsdl:input name="UpsertCustomerRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="UpsertCustomerResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="GetCustomerContacts">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/GetCustomerContacts" style="document"/>
+<wsdl:input name="GetCustomerContactsRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="GetCustomerContactsResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="RetrieveCustomer">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveCustomer" style="document"/>
+<wsdl:input name="RetrieveCustomerRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="RetrieveCustomerResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="RetrieveFop">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveFop" style="document"/>
+<wsdl:input name="RetrieveFopRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="RetrieveFopResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="UpsertCustomerContatcs">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertCustomerContatcs" style="document"/>
+<wsdl:input name="UpsertCustomerContactsRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="UpsertCustomerContactsResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="UpsertFop">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertFop" style="document"/>
+<wsdl:input name="UpsertFopRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="UpsertFopResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="DeleteCustomerProfile">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/DeleteCustomerProfile" style="document"/>
+<wsdl:input name="DeleteCustomerProfileRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="DeleteCustomerProfileResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="RetrieveInvoiceProfile">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/RetrieveInvoiceProfile" style="document"/>
+<wsdl:input name="RetrieveInvoiceProfileRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="RetrieveInvoiceProfileResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="UpsertInvoiceProfile">
+<soap:operation soapAction="http://schemas.ntvspa.it/BIG/WebServices/ICustomerManager/UpsertInvoiceProfile" style="document"/>
+<wsdl:input name="UpsertInvoiceProfileRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="UpsertInvoiceProfileResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ServiceFaultFault">
+<soap:fault use="literal" name="ServiceFaultFault" namespace=""/>
+</wsdl:fault>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="CustomerManager">
+<wsdl:port name="BasicHttpBinding_ICustomerManager" binding="tns:BasicHttpBinding_ICustomerManager">
+<soap:address location="https://bigtestak.ntvspa.it/Test/BIG/v7/Soap/CustomerManager.svc"/>
+</wsdl:port>
+<wsdl:port name="BasicHttpBinding_ICustomerManager1" binding="tns:BasicHttpBinding_ICustomerManager1">
+<soap:address location="https://localhost:44352/Soap/CustomerManager.svc"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>
